@@ -26,7 +26,14 @@ constexpr ll mod = 1e9 + 7;
 //constexpr ll mod = 998244353;
 
 void solve() {
-    
+    cout << "Hello World\n";
+    stack<int> st;
+    st.push(1);
+    st.push(2);
+    while(!st.empty()) {
+        cout << st.top() << " ";
+        st.pop();
+    }
 }
 
 signed main() {
