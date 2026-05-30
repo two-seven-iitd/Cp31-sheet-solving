@@ -1,7 +1,10 @@
 # Good Concepts
 ---
-## Segment Intersection
-🏷️ Tags: <mark style="background:#ffcdd2;padding:2px 6px;border-radius:4px;">`intersection`</mark> 
+### Segment Intersection
+---
+<div>
+🏷️ Tags: <mark style="background:#ffcdd2;padding:2px 6px;border-radius:4px;">intersection</mark> 
+</div>
 
 - [usaco guide](https://usaco.guide/bronze/rect-geo)
 
@@ -15,10 +18,11 @@ The number of integer points in the intersection is
 
 \[\max\bigl(0,\;\min(r_1, r_2) - \max(l_1, l_2) + 1\bigr).\]
 
-## Nearest Element using Binary Search
-
-🏷️ Tags: <mark style="background:#ffcdd2;padding:2px 6px;border-radius:4px;">`nearest`</mark> • <mark style="background:#c8e6c9;padding:2px 6px;border-radius:4px;">`closest`</mark> • <mark style="background:#bbdefb;padding:2px 6px;border-radius:4px;">`binary search`</mark>
-
+### Nearest Element using Binary Search
+---
+<div>
+🏷️ Tags: <mark style="background:#ffcdd2;padding:2px 6px;border-radius:4px;">nearest</mark> • <mark style="background:#c8e6c9;padding:2px 6px;border-radius:4px;">closest</mark> • <mark style="background:#bbdefb;padding:2px 6px;border-radius:4px;">binary search</mark>
+</div>
 
 For a sorted array `a` and a value `x`, the nearest element can be found with binary search.
 
