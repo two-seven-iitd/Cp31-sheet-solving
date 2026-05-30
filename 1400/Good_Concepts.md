@@ -10,11 +10,12 @@ Short theory:
 
 Intersection of two segments [l1, r1] and [l2, r2] is the interval
 
-$$\max(l_1, l_2) \;\text{to}\; \min(r_1, r_2)$$
+$$\max(l_1, l_2) \quad \text{to} \quad \min(r_1, r_2)$$
 
 The number of integer points in the intersection is
 
-$$\max\bigl(0,\;\min(r_1, r_2) - \max(l_1, l_2) + 1\bigr)$$
+$$\max\Big(0, \  \min(r_1, r_2) - \max(l_1, l_2) + 1\Big)$$
+
 ### Nearest Element using Binary Search
 ---
 > 🏷️ **Tags:** &ensp; `nearest` &ensp;•&ensp; `closest` &ensp;•&ensp; `binary search`
