@@ -2,10 +2,11 @@
 ---
 ## 2. Grouping Increases
 
-`greedy`, `dp`, `casework`
+`greedy`, `casework`, `dp`, `good dp`
 
 ### what's good
 the casework that we have to think is actually motivated by actually `simulating` the `construction` , it is just <u>construction</u> at it's core 
+- also the alternative dp solution is insane, hard to understand & implement (uses segment tree)
 
 ### Editorial Solution
 [link to editorial](https://codeforces.com/blog/entry/124220)
