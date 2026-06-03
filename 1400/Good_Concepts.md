@@ -27,3 +27,10 @@ For a sorted array `a` and a value `x`, the nearest element can be found with bi
 
 Compare the two elements(`iterator`) returned by these searches to choose the closest element to `x`.
 
+the following concepts needs to be added , mainly the median one 
+
+## 16. Arranging the sheep 
+- todo -> clearly analyze all the three solutions
+  - binary search
+  - pointer 
+  - median approach (`goated`)

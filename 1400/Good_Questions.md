@@ -30,3 +30,9 @@ the casework that we have to think is actually motivated by actually `simulating
 
 <p>Following the greedy approach for all 3 cases will result in a correct solution that runs in <i>O</i>(<i>n</i>) time.</p>
 </details>
+
+## 16. Arranging the sheep 
+- todo -> clearly analyze all the three solutions
+  - binary search
+  - pointer 
+  - median approach (`goated`)
