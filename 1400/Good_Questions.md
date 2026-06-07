@@ -36,3 +36,48 @@ the casework that we have to think is actually motivated by actually `simulating
   - binary search
   - pointer 
   - median approach (`goated`)
+
+## 19. Ball in Berland
+- todo -> graph formulation for the Question , how can we model it as a graph question
+
+##  Johnny and Another Rating Drop
+
+**Problem:** Total bit flips going 0 → 1 → 2 → … → n (i.e., sum of hamming distance of consecutive XORs).
+
+**Key observation:** Adding 1 to a number with `len` trailing 1s flips `len + 1` bits.
+
+---
+
+### Three approaches
+
+#### 1. Pattern counting (most intuitive)
+For each `len`, count numbers in `[0, n-1]` matching `x0 1...1` (exactly `len` trailing 1s), multiply by `(len + 1)`.
+
+```
+count = floor((n - 2^len) / 2^(len+1)) + 1
+ans += count * (len + 1)
+```
+
+#### 2. Per-bit position
+Bit `p` flips whenever trailing 1s ≥ p, i.e., every `2^p`-th number.
+
+```
+ans = floor(n/1) + floor(n/2) + floor(n/4) + …
+```
+
+#### 3. Closed form
+```
+ans = 2n - popcount(n)
+```
+
+---
+
+### Why `floor(n/1) + floor(n/2) + … = 2n - popcount(n)`
+
+Each bit $b_i$ of $n$ appears in terms `floor(n/1)` through `floor(n/2^i)`, contributing $b_i \cdot (2^{i+1} - 1)$. Summing: $2 \sum b_i \cdot 2^i - \sum b_i = 2n - \text{popcount}(n)$.
+
+---
+
+### Gotcha
+- Right-shifting a negative number gives -1 (arithmetic shift), not 0. Guard with `if(... < 0) break`.
+- Count over `[0, n-1]` not `[0, n]` — the transition *from* n shouldn't be included.
