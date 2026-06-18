@@ -8,11 +8,12 @@
 
 ### Knob 1: Sorting order for ties in `a`
 - **Strict `a` (`<`):** sort ties in `a` by `b` descending → tied-`a` pairs can't form inversions
-- **Non-strict `a` (`<=`):** sort ties in `a` by `b` ascending → tied-`a` pairs can form inversions
+- **Non-strict* `a` (`<=`):** sort ties in `a` by `b` ascending → tied-`a` pairs can form inversions
 
 ### Knob 2: BIT query
 - **Strict `b` (`>`):** `ans += i - bit.query(rank)` → equal `b` excluded
-- **Non-strict `b` (`>=`):** `ans += i - bit.query(rank - 1)` → equal `b` included
+> [!IMPORTANT]
+> - **Non-strict `a` (`<=`):** sort ties in `a` by `b` ascending → tied-`a` pairs can form inversions
 
 ### Cheat sheet
 
