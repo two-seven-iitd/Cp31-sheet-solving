@@ -20,21 +20,7 @@ using vvi = vector<vector<int>>;
 #define yn(a) cout << (a ? "YES\n" : "NO\n")
 #define pb push_back
 
-#ifdef ONLINE_JUDGE
-    #define dbg(...) 42
-    #define dbg_grid(...) 42
-    #define dbg_arr(...) 42
-    #define dbg_mat(...) 42
-    #define dbg_sep(...) 42
-    #define dbg_iter(...) 42
-    #define dbg_if(...) 42
-    #define dbg_every(...) 42
-    #define dbg_assert(...) 42
-    #define dbg_timer_start(...) 42
-    #define dbg_timer_end(...) 42
-#else
-    #include "C:\Users\Ankit\Documents\debug_.h"
-#endif
+
 // ---- constants 
 constexpr ll inf = 1e15;
 constexpr ll mod = 1e9 + 7;
