@@ -32,13 +32,12 @@ void solve() {
     vi ans(n), diff(n);
     for(int i=0; i<n; i++) {
         int l = i; int r = n-1;
-        // find first ind s.t sum(i,ind) >= a[i];
+        // find first ind s.t sum(i,ind) > a[i];
         int res = n;
-        while(l<=r) {
+        while(l<=r) {            // {using upper_bound will really save a lot of time}
             int mid = (l+r)/2;
             int rsum = pre[mid] - (i>0 ? pre[i-1]:0);
             
-            // cout << "mid: " << mid << "rsum: " << rsum << "\n";
             if(rsum > a[i]) {
                 res = mid;
                 r = mid - 1;
@@ -53,17 +52,13 @@ void solve() {
 
         if(res-1>=i) {
             diff[i]++;
-            if(res<n) diff[res]--;
+            if(res<n) diff[res]--; // {exclusive prefix sum can save you from this mess, but it is still ok}
         }
 
-        // cout << "res: " << res << "\n";
         if(res<n) ans[res] += a[i]-sum;
     }
 
-    // cout << "ans:- \n";
-    // for(int i=0; i<n; i++) {
-    //     cout << ans[i] << " \n"[i=n-1];
-    // }
+
     for(int i=1; i<n; i++) {
         diff[i] += diff[i-1];
     }
