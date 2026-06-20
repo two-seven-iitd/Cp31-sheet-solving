@@ -55,7 +55,6 @@ void solve() {
 
 signed main() {
     fastio;
-    solve(); // Uncomment for single test case 
-    // int tc; cin >> tc; while(tc--) {solve();} //  Multiple test cases 
+    solve(); 
     return 0;
 }
