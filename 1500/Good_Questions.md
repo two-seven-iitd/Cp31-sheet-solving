@@ -49,8 +49,8 @@ if (a[l] <= x) {
 $$\texttt{xor0} \mathrel{\oplus}= \text{xor}(l, r), \quad \texttt{xor1} \mathrel{\oplus}= \text{xor}(l, r)$$
 
 - **Range-XOR via prefix-XOR, NOT sparse table:**
-  > [!WARNING]
-  > Sparse table needs idempotency $f(a, a) = a$. XOR fails: $a \oplus a = 0$. Use prefix-XOR: $\text{xor}(l, r) = P[r] \oplus P[l-1]$.
+> [!WARNING]
+> Sparse table needs idempotency $f(a, a) = a$. XOR fails: $a \oplus a = 0$. Use prefix-XOR: $\text{xor}(l, r) = P[r] \oplus P[l-1]$.
 - Cross-ref: [Range Query Cheatsheet](https://github.com/two-seven-iitd/CP-tutorials/blob/main/Range_Query_Cheatsheet.md).
 
 ## 5. Tea Tasting
@@ -88,8 +88,8 @@ $$\text{ans} = \min_{S \subseteq \{1!, 2!, \dots, 14!\}} \big(|S| + \text{popcou
 
 - **Approach:** brute-force all $2^{14}$ subsets. AC.
 - **Takeaway:**
-  > [!TIP]
-  > Read the constraints first. A lot of 1500-rated problems hide a constant-sized search space behind a scary statement — brute force is allowed, you just have to notice it.
+> [!TIP]
+> Read the constraints first. A lot of 1500-rated problems hide a constant-sized search space behind a scary statement — brute force is allowed, you just have to notice it.
 
 ## 10. AGAGA XOOORRR
 - **Link:** https://codeforces.com/problemset/problem/1516/B
