@@ -8,7 +8,7 @@
   - **Ordered set (`pbds`)** — `size() - order_of_key(b)`. No compression. ~3–5× slower, GCC-only.
 
 ## 2. Smilo and Monsters
-- **Link:** https://codeforces.com/problemset/problem/1735/C
+- **Link:** https://codeforces.com/problemset/problem/1891/C
 - **Idea:** sort ascending. Spend the cheapest hp as attacks to build power $x$, then one charge to kill the largest. Repeat. Tail (`l == r`) needs care.
 - **Clean implementation:**
 
@@ -42,7 +42,7 @@ if (a[l] <= x) {
 - **Why it's a good question:** the concept is one line, but the tail case is where casework explodes. Writing it as one formula ($\lceil (a[l] - x)/2 \rceil + 1$) kills the whole bug class.
 
 ## 4. Data Structures Fan
-- **Link:** https://codeforces.com/problemset/problem/1722/F
+- **Link:** https://codeforces.com/problemset/problem/1872/E
 - **Trick:** don't store the string. Keep two scalars: `xor0` (XOR of $a_i$ where $s_i = 0$), `xor1` (XOR of $a_i$ where $s_i = 1$).
 - **Why it works:** a flip on $[l, r]$ moves every element there to the other group. So:
 
@@ -63,7 +63,7 @@ $$\texttt{xor0} \mathrel{\oplus}= \text{xor}(l, r), \quad \texttt{xor1} \mathrel
 - **What's nice:** combines binary-search-on-prefix-sum with difference array — two routine tools, the trick is seeing they compose here.
 
 ## 6. Controllers
-- **Link:** https://codeforces.com/problemset/problem/1742/G
+- **Link:** https://codeforces.com/problemset/problem/1776/L
 - Each `'+'` contributes $\pm a$, each `'-'` contributes $\pm b$. Want total $= 0$.
 - **Approach 1 — linear equation (what I did):**
   - let $\text{diff} = \text{cnt}_+ - \text{cnt}_-$, $x$ = signed `'+'` contribution in units of $a$.
@@ -75,7 +75,7 @@ $$\texttt{xor0} \mathrel{\oplus}= \text{xor}(l, r), \quad \texttt{xor1} \mathrel
 - **Why both matter:** approach 2 generalizes — whenever you see $a \cdot x = b \cdot y$ over bounded integers, think LCM scaling.
 
 ## 7. Palindrome Basis
-- **Link:** https://codeforces.com/problemset/problem/1631/D
+- **Link:** https://codeforces.com/problemset/problem/1673/C
 - **The fact:** there are only **498 palindromes** $\le 4 \cdot 10^4$. Precompute them, then it's textbook unbounded-coin-change DP: $\approx 498 \times 4 \cdot 10^4 = 2 \cdot 10^7$, trivial.
 - Same lesson as **9. Factorials and Powers of Two**: count the candidates before assuming you need cleverness.
 
