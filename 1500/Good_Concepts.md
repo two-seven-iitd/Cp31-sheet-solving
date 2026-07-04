@@ -2,6 +2,8 @@
 
 ## Counting Inversions with BIT — Controlling Strictness
 
+> 🏷️ **Tags:** &ensp; `bit` &ensp;•&ensp; `inversions` &ensp;•&ensp; `coordinate compression` &ensp;•&ensp; `ties/strictness`
+
 **Problem:** Given pairs `(a_i, b_i)`, count pairs where `a_i < a_j` and `b_i > b_j` (or variants with ≤, ≥).
 
 **Core idea:** Sort by `a`, then count inversions in `b` using a BIT. Two knobs control strictness:
@@ -58,6 +60,8 @@ auto rank = [&](int v) {
 
 ## Median(x) is the Point that minimizes the summation(|xi-x|)
 
+> 🏷️ **Tags:** &ensp; `median` &ensp;•&ensp; `manhattan distance` &ensp;•&ensp; `proof`
+
 know that it is kinda very known question, so there's obv. nothing new in that
 
 but the thing that `11. Eastern Exhibition` uses that idea, so there is one new thing to add 
@@ -108,3 +112,61 @@ to see it concretely, imagine $n = 7$ and you're sliding $x$ from left to right:
 the moment you cross the median, the sign of $\Delta$ flips — meaning you've gone too far. the median is the exact balance point.
 
 if $n$ is odd, that's the unique middle element. if $n$ is even, any point between the two middle elements works (and all give the same cost).
+
+## Fixing a Deficit with Power-of-Two Suffix Additions
+
+> 🏷️ **Tags:** &ensp; `bit manipulation` &ensp;•&ensp; `powers of two` &ensp;•&ensp; `prefix max`
+
+**Source:** 16. Powered Addition
+
+if an operation lets you add $2^x$ (your choice of $x$) to an entire *suffix* of the array, and you want to kill the worst "deficit" $D$ (how far one element lags behind the running max before it), the answer is just the bit-length of $D$:
+
+$$\text{ops} = \lfloor \log_2 D \rfloor + 1$$
+
+### Why It's Just the Bit-Length of D
+
+each operation raises a suffix by exactly one power of two, and you're free to stack several ops on the *same* suffix. Stacking distinct powers of two on the same range is exactly how binary representation works — so the minimum number of stacked ops needed to reach at least $D$ is the number of bits needed to represent $D$:
+
+| deficit `D` | binary | ops (`__lg(D) + 1`) |
+|:---:|:---:|:---:|
+| 0 | — | 0 |
+| 1 | `1` | 1 |
+| 3 | `11` | 2 |
+| 5 | `101` | 3 |
+| 7 | `111` | 3 |
+
+### The Generalizable Lesson
+
+> [!TIP]
+> Whenever an operation only ever contributes a power of two, and effects on the same range stack additively, stop counting operations directly — count bits in the target value's binary representation instead.
+
+same lens as [Bit Manipulation — Trailing Ones & Binary Counting](../1400/Good_Concepts.md) (from `1400/`, on Johnny and Another Rating Drop) — both problems reduce "how many ops" to "how many bits."
+
+## Pairing Feasibility: max ≤ sum / 2
+
+> 🏷️ **Tags:** &ensp; `feasibility` &ensp;•&ensp; `pairing` &ensp;•&ensp; `greedy`
+
+**Source:** 20. Zero Array
+
+the question: given non-negative values, can you repeatedly pick two *different* positive elements and decrement both by 1, until everything is zero?
+
+### The Condition
+
+feasible **iff** both hold:
+- the total sum is even
+- the largest element is at most half the total:
+
+$$\max_i a_i \le \frac{\sum_i a_i}{2}$$
+
+### Why Both Halves Are Necessary
+
+every operation removes exactly 2 from the total, so the sum must be even — that part's obvious. The max condition is less obvious: the largest element can only shrink by pairing against *something else* each time, so it can never need more decrements than everything else combined can supply. If it did, it'd still be positive after every other element hit zero, with no partner left to pair against.
+
+### Why It's Sufficient Too (Greedy Proof Sketch)
+
+repeatedly pair the current max with the next-largest element. As long as `max <= sum/2` holds, the max never "runs out" of partners, and the same invariant holds again on the smaller array after each pairing — induction closes the argument.
+
+### Where Else This Shows Up
+
+> [!NOTE]
+> Any "cancel two at a time" / "merge the two largest" / bin-balancing question reduces to this exact check. Reach for it directly instead of re-deriving a greedy argument each time you see the shape.
