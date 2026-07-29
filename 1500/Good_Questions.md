@@ -263,3 +263,46 @@ cout << ((tot % 2 == 0) && (tot / 2 >= mx) ? "YES\n" : "NO\n");
 ```
 - "max $\le$ half of total" is the standard necessary-and-sufficient condition for any "pair up and cancel two at a time" question — worth keeping as a one-liner instead of re-deriving it each time.
 - Cross-ref: [Good_Concepts.md](Good_Concepts.md) — "Pairing Feasibility: max ≤ sum / 2".
+
+## 21. Edgy Trees
+
+`complementary counting`, `connected components`, `dfs`, `modular arithmetic`
+
+- **Link:** https://codeforces.com/problemset/problem/1139/C
+- **Problem:** tree with $n$ nodes, edges coloured black (0) or red (1). Count $k$-tuples of nodes such that every pair in the tuple can be connected by a path using **no red edges**.
+- **Key idea — complementary counting:** a "bad" $k$-tuple is one where all $k$ nodes lie inside the same black-edge connected component (the path between any two in that component is all-black, but such a tuple *never* uses a red edge — wait, that's the *good* case). Flip: build the graph of black edges only, find connected components of sizes $s_1, s_2, \dots$. A tuple is bad iff all nodes lie in one component *and* you're forced to use a red edge — actually, a tuple is "good" iff every pair can be joined without red edges, which means all nodes must lie in the same black-edge component.
+
+  Rethink: **"bad" = at least one pair must use a red edge = nodes span more than one black component.**
+
+$$\text{ans} = n^k - \sum_i s_i^k$$
+
+  $n^k$ = total tuples (with repetition), $s_i^k$ = tuples confined to component $i$. Subtracting gives tuples that span $\ge 2$ components — which require a red edge.
+
+- **Implementation note:** isolated nodes (degree 0 in the black subgraph) are singleton components of size 1; each contributes $1^k = 1$ to the subtraction. The code handles this implicitly by tracking visited nodes.
+
+## 22. Zero Quantity Maximization
+
+`math`, `fraction normalization`, `gcd`, `hashing`
+
+- **Link:** https://codeforces.com/problemset/problem/1133/D
+- **Problem:** given arrays $a$ and $b$ of length $n$, find $d$ that maximizes the count of indices $i$ where $d \cdot a_i + b_i = 0$.
+- **Reduction:** for each $i$, the target $d = -b_i / a_i$. Group indices by their normalized fraction $(-b_i / a_i)$ and find the largest group.
+- **Fraction normalization:** divide numerator and denominator by $\gcd(|b_i|, |a_i|)$, then force the denominator positive (flip signs if needed). This ensures equivalent fractions map to the same key.
+- **Edge cases:**
+  - $a_i = 0, b_i = 0$: $d \cdot 0 + 0 = 0$ for *any* $d$ → count these separately, add to every group's answer.
+  - $a_i = 0, b_i \ne 0$: no $d$ satisfies → skip.
+```cpp
+struct frc {
+    bool sp = false;
+    int num, den;
+    frc(int a, int b) {
+        if (a == 0 && b == 0) { sp = true; return; }
+        if (a == 0) { num = 0; den = 1; return; }
+        if (b == 0) { sp = true; num = 1; den = 0; return; }
+        int g = gcd(abs(a), abs(b));
+        num = a/g * (b > 0 ? 1 : -1);
+        den = abs(b/g);
+    }
+};
+```
+- **Takeaway:** whenever a problem asks you to group rationals, normalize with GCD + sign convention. The `(a=0, b=0)` wildcard case is the only subtlety — it adds to *every* group, so track it as a separate counter.
