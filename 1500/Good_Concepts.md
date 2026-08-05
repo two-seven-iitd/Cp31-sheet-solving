@@ -170,3 +170,77 @@ repeatedly pair the current max with the next-largest element. As long as `max <
 
 > [!NOTE]
 > Any "cancel two at a time" / "merge the two largest" / bin-balancing question reduces to this exact check. Reach for it directly instead of re-deriving a greedy argument each time you see the shape.
+
+## Binary Search on Threshold — "Level Everyone Down"
+
+> 🏷️ **Tags:** &ensp; `binary search` &ensp;•&ensp; `greedy` &ensp;•&ensp; `optimization`
+
+**Source:** 28. Minimize the error
+
+when you have $k$ operations to distribute across $n$ values (each operation decrements some $d_i$ by 1) and want to minimize a cost like $\sum d_i^2$, the greedy "pop-max-and-decrement" PQ approach is $O(k \log n)$ — fine when $k$ is small, but $k$ can be up to $10^9$.
+
+### The Trick
+
+binary search on the **target threshold** $T$: after optimally spending $k$ ops, every $d_i$ should be $\le T$ (or as close as possible). For a candidate $T$, the cost to bring everyone at or below $T$ is:
+
+$$\text{ops needed} = \sum_i \max(0,\; d_i - T)$$
+
+this is monotone in $T$ (smaller $T$ ⟹ more ops), so binary search finds the smallest $T$ achievable within budget $k$.
+
+### After the Binary Search
+
+once you have the right $T$, you know:
+- every $d_i > T$ gets clamped to $T$ (costs $d_i - T$ ops each)
+- leftover ops ($k - \text{used}$) can reduce some elements from $T$ to $T{-}1$
+
+final answer is computed analytically — no simulation needed:
+
+```cpp
+int l = 0, r = *max_element(all(d)), res = -1;
+while (l <= r) {
+    int mid = (l + r) / 2;
+    ll sum = 0;
+    for (int i = 0; i < n; i++)
+        if (d[i] > mid) sum += d[i] - mid;
+    if (sum <= k) { r = mid - 1; res = mid; }
+    else           { l = mid + 1; }
+}
+// res is the threshold; compute final cost from res, leftover ops, and counts
+```
+
+### When to Reach for This
+
+> [!TIP]
+> Whenever a problem says "you have $k$ operations, each reduces one element by 1, minimize some convex cost" — stop simulating ops and binary search on the answer threshold instead. The check is always a simple prefix/suffix sum.
+
+the same pattern shows up in:
+- [28. Minimize the error](#) (this problem)
+- [D-3971 Maximum Total Value (Notion)](https://app.notion.com/p/D-3971-Maximum-Total-Value-3926f147d7ef8058ac10dfbe539fc1a3) — exact same concept
+
+## Sliding Window on Monotone Aggregate Functions
+
+> 🏷️ **Tags:** &ensp; `sliding window` &ensp;•&ensp; `two pointers` &ensp;•&ensp; `gcd` &ensp;•&ensp; `sparse table`
+
+**Source:** 29. Pride
+
+### The Property
+
+$\gcd(a_l, a_{l+1}, \dots, a_r)$ is **monotonically non-increasing** as $r$ grows (for fixed $l$): adding an element can only keep the GCD the same or shrink it, never increase it.
+
+this means: if $\gcd(l, r) = 1$, then $\gcd(l, r') = 1$ for all $r' \ge r$. conversely, if $\gcd(l, r) > 1$, shrinking the window by advancing $l$ can only increase it.
+
+### Why Two-Pointer Works
+
+because of monotonicity, you can use a sliding window to find the **shortest subarray** with $\gcd = 1$:
+- expand $r$ until $\gcd(l, r) = 1$
+- record window length, advance $l$, repeat
+
+range-GCD queries are answered via sparse table ($O(1)$ per query after $O(n \log n)$ build), since GCD is idempotent: $\gcd(a, a) = a$.
+
+> [!WARNING]
+> Don't confuse with XOR — $\text{XOR}(a, a) = 0 \ne a$, so XOR is **not** idempotent and sparse table doesn't work for range-XOR. Use prefix-XOR instead (see [4. Data Structures Fan](Good_Questions.md#4-data-structures-fan)).
+
+### The Generalizable Lesson
+
+> [!TIP]
+> Any aggregate function that is **monotone** under window extension (GCD shrinks, AND shrinks, OR grows, min shrinks, max grows) admits a two-pointer / sliding window approach for "find shortest/longest subarray where aggregate hits target $T$." The key insight is that once the condition is met, further extension can't break it (or vice versa — once broken, shrinking can't fix it).
