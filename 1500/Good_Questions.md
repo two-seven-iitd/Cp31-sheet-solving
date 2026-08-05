@@ -306,3 +306,88 @@ struct frc {
 };
 ```
 - **Takeaway:** whenever a problem asks you to group rationals, normalize with GCD + sign convention. The `(a=0, b=0)` wildcard case is the only subtlety — it adds to *every* group, so track it as a separate counter.
+
+## 23. Lunar New Year and a Wander
+
+`min-heap`, `bfs`, `graph`
+
+- **Link:** https://codeforces.com/problemset/problem/1106/D
+- **Problem:** find the lexicographically smallest BFS traversal of an undirected graph starting from node 1.
+- **Key idea:** replace the BFS queue with a min-heap (priority queue). At each step, always pick the smallest unvisited neighbor — the min-heap handles this automatically.
+```cpp
+priority_queue<int, vector<int>, greater<int>> pq;
+pq.push(0); vis[0] = true;
+while (!pq.empty()) {
+    int u = pq.top(); pq.pop();
+    ans.push_back(u);
+    for (auto& v : adj[u])
+        if (!vis[v]) { vis[v] = true; pq.push(v); }
+}
+```
+- **Why it's good:** a simple twist on standard BFS — swapping `queue` for `priority_queue` is the entire difference, but recognizing that BFS layer structure doesn't matter here (only visit order) is the insight.
+
+## 24. Division and Union
+
+`intervals`, `segments`, `sweep-line`, `greedy`, `sorting`
+
+- **Link:** https://codeforces.com/problemset/problem/1101/C
+- **Problem:** split $n$ segments into two non-empty groups such that no segment from group 1 intersects any segment from group 2.
+- **Idea:** sort by left endpoint, greedily extend a running "merged right" boundary. As soon as a segment's left endpoint exceeds the running right, everything after goes to group 2.
+- Somewhat on the easier side, but a nice greedy interval-splitting template.
+
+## 25. The Fair Nut and String
+
+`combinatorics`, `dp`
+
+- **Link:** https://codeforces.com/problemset/problem/1084/C
+- **Problem:** count non-empty subsequences of 'a's separated by 'b's.
+- **Idea:** between consecutive 'b's (and at string boundaries), count runs of 'a's of length $c_i$. For each run, you can pick 0 to $c_i$ 'a's — answer: $\prod(1 + c_i) - 1$.
+- Can be used as a practice problem for Combinatorics — the product-of-choices structure appears frequently.
+
+## 27. Nested Segments
+
+`segments`, `intervals`, `overlapping`
+
+- **Link:** https://codeforces.com/problemset/problem/976/C
+- **Problem:** find any pair $(i, j)$ where segment $i$ is fully contained in segment $j$ ($l_j \le l_i$ and $r_i \le r_j$).
+- **Resembles [1. Greetings](#1-greetings):** same sorting trick (sort by $l$ ascending, ties by $r$ descending) — see [BIT inversions concept](Good_Concepts.md#counting-inversions-with-bit--controlling-strictness).
+- **Simplification:** initially thought of using BIT (for counting all such pairs), but realized only one pair is needed — so just track $\max(r_i)$ as you scan left to right. If current $r_i \le \max$, found a nested pair.
+- Very much correlated to [1. Greetings / F_Greetings.cpp](#1-greetings).
+
+## 28. Minimize the error
+
+`greedy`, `max pq`, `binary search on threshold`
+
+- **Link:** https://codeforces.com/problemset/problem/960/B
+- **Problem:** given arrays $a$ and $b$, can increment/decrement elements with $k_1 + k_2$ total operations, minimize $\sum (a_i - b_i)^2$.
+- **Approach 1 — greedy PQ:** compute $d_i = |a_i - b_i|$, repeatedly pop max and decrement. $O(n + k \log n)$, works for small constraints.
+- **Approach 2 — binary search on threshold:** binary search on the target max-difference $T$. For each $T$, check if $\sum \max(0, d_i - T) \le k$. Then compute the final sum analytically. Much better for large $k$.
+- **Cross-ref:** uses the exact same concept as [D-3971 Maximum Total Value (Notion)](https://app.notion.com/p/D-3971-Maximum-Total-Value-3926f147d7ef8058ac10dfbe539fc1a3).
+
+## 29. Pride
+
+`range query`, `gcd`, `sliding window`, `sparse table`
+
+- **Link:** https://codeforces.com/problemset/problem/891/A
+- **Problem:** find minimum operations to make all elements 1, where an operation replaces an element with $\gcd$ of two adjacent elements.
+- **Key insight:** if any 1 exists, answer is $n - \text{count}(1)$. If total $\gcd \ne 1$, answer is $-1$. Otherwise, find shortest subarray with $\gcd = 1$.
+- **Approach:** sparse table for range-GCD + sliding window — $\gcd$ is monotonically non-increasing as window grows, so two-pointer works.
+- A good enough Question if under range Query Category — the sliding window approach is quite wonderful; could also use binary search instead.
+
+## 30. Two TVs
+
+`segments`, `intervals`, `sweep line`, `greedy`
+
+- **Link:** https://codeforces.com/problemset/problem/845/C
+- **Problem:** check if $n$ shows (intervals) can be scheduled on exactly 2 TVs without overlap.
+- **Idea:** sort by start time. Greedily assign each show to the TV whose current show ends earlier (if it doesn't conflict). Track two running endpoints $r_1, r_2$.
+- Pretty obvious & easy to prove. Alternative: sweep line approach (see [CSES Event Schedule](https://cses.fi/problemset/task/1619)).
+
+## 31. Little Girl and Maximum Sum
+
+`difference array`, `prefix sum`
+
+- **Link:** https://codeforces.com/problemset/problem/276/C
+- **Problem:** given queries $[l, r]$, rearrange array to maximize the sum of all query ranges.
+- **Idea:** use difference array to count how many times each index appears across all queries. Sort counts and array values both descending, multiply pairwise (rearrangement inequality).
+- Very very intuitive — standard difference array application.
